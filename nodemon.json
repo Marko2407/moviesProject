@@ -4,6 +4,8 @@
         "MONGO_PASSWORD":"user",
         "MONGO_DB": "movies-dev",
         "SECURE_ACCESS_TOKEN_KEY": "someSecureAccessTokenKey",
-        "SECURE_REFRESH_TOKEN_KEY": "someSecureRefreshTokenKey"
+        "SECURE_REFRESH_TOKEN_KEY": "someSecureRefreshTokenKey",
+        "MONGO_DB_URL" : "mongodb+srv://user:user@projects.6uu4x9e.mongodb.net/movies-dev?retryWrites=true&w=majority"
+
     }
 }

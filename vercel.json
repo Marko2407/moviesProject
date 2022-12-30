@@ -11,5 +11,12 @@
             "src": "/(.*)",
             "dest": "/"
         }
-    ]
+    ],
+     "env":{
+        "MONGO_USER": "user",
+        "MONGO_PASSWORD":"user",
+        "MONGO_DB": "movies-dev",
+        "SECURE_ACCESS_TOKEN_KEY": "someSecureAccessTokenKey",
+        "SECURE_REFRESH_TOKEN_KEY": "someSecureRefreshTokenKey"
+    }
 }

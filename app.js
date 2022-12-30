@@ -3,8 +3,6 @@ const bodyParser = require("body-parser");
 const graphqlHttp = require("express-graphql");
 const mongoose = require("mongoose");
 
-MONGO_DB_URL =
-  "mongodb+srv://user:user@projects.6uu4x9e.mongodb.net/movies-dev?retryWrites=true&w=majority";
 const grapqhlSchema = require("./graphql/schema/index");
 const graphqlResolvers = require("./graphql/resolvers/index");
 
@@ -33,7 +31,7 @@ app.use(
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-   MONGO_DB_URL, {
+   process.env.MONGO_DB_URL, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       autoIndex: true,
