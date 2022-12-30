@@ -16,11 +16,12 @@ const movieSchema = new Schema({
   url: {
     type: String,
   },
-//   category: {
-//     type: String,
-//     enum: category,
-//     default: category.NONE,
-//   },
+  category: [
+    {type: String,
+    enum: category,
+    default: category.NONE
+    },
+    ],
   duration: {
     type: Number,
     required: true,

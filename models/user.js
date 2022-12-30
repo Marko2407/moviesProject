@@ -13,10 +13,12 @@ const userSchema = new Schema({
   refreshToken: {
     type: String,
   },
-  favoriteMovies:[{
+  favoriteMovies:[
+    {
     type: Schema.Types.ObjectId,
     ref:"Movie",
-  }]
+  },
+]
 });
 
 module.exports = mongoose.model("User", userSchema);

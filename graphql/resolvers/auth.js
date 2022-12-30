@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
 const { customError } = require("../../helpers/errorHandler");
+const { transformMovies, transformUser } = require("../resolvers/merge");
 
 function generateAccessToken(userId) {
   return jwt.sign({ userId: userId }, process.env.SECURE_ACCESS_TOKEN_KEY, {
@@ -90,7 +91,7 @@ module.exports = {
         if (!user) {
           throw customError("Unable to find user", 404);
         }
-        return user
+        return transformUser(user);
     }catch(err){
         console.log(err)
         throw err

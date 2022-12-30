@@ -1,4 +1,10 @@
 exports.category =  {
-    ACTION : 'Action',
-    NONE : 'Nonee'
-} 
+    ACTION : 'ACTION',
+    NONE : 'NONE',
+    COMEDY: 'COMEDY',
+    MARVEL: 'MARVEL',
+    DC:'DC',
+    HOROR:'HOROR',
+    ANIMATION: 'ANIMATION',
+    ROMANTIC: 'ROMANTIC'
+}

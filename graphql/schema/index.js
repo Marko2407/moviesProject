@@ -12,6 +12,12 @@ module.exports = buildSchema(`
         enum Category{
             ACTION
             NONE
+            COMEDY
+            MARVEL
+            DC
+               HOROR
+    ANIMATION
+    ROMANTIC
         }
 
         type Movie{
@@ -20,6 +26,7 @@ module.exports = buildSchema(`
             description: String!
             img: String
             url: String
+            category: [Category]
             duration: Int!
             releaseDate: String!
             rating: Float
@@ -42,6 +49,7 @@ module.exports = buildSchema(`
             description: String!
             img: String
             url: String
+              category: [Category]
              duration: Int!
              releaseDate: String!
              rating: Float

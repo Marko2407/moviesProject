@@ -12,6 +12,7 @@ module.exports = {
     }
   },
   createMovie: async (args) => {
+    console.log(args.movieInput.category);
     const movie = new Movie({
       title: args.movieInput.title,
       description: args.movieInput.description,
@@ -20,6 +21,7 @@ module.exports = {
       duration: args.movieInput.duration,
       releaseDate: new Date(args.movieInput.releaseDate),
       rating: args.movieInput.rating,
+      category: args.movieInput.category
     });
 
     try {
