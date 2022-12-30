@@ -1,6 +1,6 @@
 const Movie = require("../../models/movie");
 const User = require("../../models/user");
-const dataLoader = require("dataLoader");
+const dataLoader = require("dataloader");
 
 const moviesLoader = new dataLoader((moviesIds) => {
   return movies(moviesIds.toString());
