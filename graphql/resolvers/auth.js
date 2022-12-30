@@ -13,7 +13,11 @@ function generateAccessToken(userId) {
 module.exports = {
   user: async () => {
     const users = await User.find();
-    return users;
+
+    users.map((user)=>{
+    transformUser(user);
+    })
+     return users
   },
   createUser: async (args) => {
     try {

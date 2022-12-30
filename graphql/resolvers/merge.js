@@ -8,6 +8,7 @@ const movies = async (moviesIds) => {
        return transformMovies(movie);
      });   
   } catch (err) {
+        console.log(err);
     throw err;
   }
 };
@@ -15,7 +16,7 @@ const movies = async (moviesIds) => {
 const transformUser = (user) => {
     return {
       ...user._doc,
-      favoriteMovies: movies.bind(this, user._doc.favoriteMovies),
+      favoriteMovies: movies.bind(this, user.favoriteMovies),
     };
 }
 
