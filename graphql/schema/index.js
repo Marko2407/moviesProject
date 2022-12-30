@@ -15,9 +15,9 @@ module.exports = buildSchema(`
             COMEDY
             MARVEL
             DC
-               HOROR
-    ANIMATION
-    ROMANTIC
+            HOROR
+            ANIMATION
+            ROMANTIC
         }
 
         type Movie{
@@ -49,10 +49,10 @@ module.exports = buildSchema(`
             description: String!
             img: String
             url: String
-              category: [Category]
-             duration: Int!
-             releaseDate: String!
-             rating: Float
+            category: [Category]
+            duration: Int!
+            releaseDate: String!
+            rating: Float
         }
         input UserInput{
             email: String!
