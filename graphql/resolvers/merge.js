@@ -1,10 +1,5 @@
 const Movie = require("../../models/movie");
 const User = require("../../models/user");
-const dataLoader = require("dataloader");
-
-const moviesLoader = new dataLoader((moviesIds) => {
-  return movies(moviesIds.toString());
-});
 
 const movies = async (moviesIds) => {
   try {
