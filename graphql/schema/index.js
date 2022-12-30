@@ -61,15 +61,15 @@ module.exports = buildSchema(`
 
         type RootQuery{
             user: [User!]
-            userInfo(userId: ID): User!
+            userInfo(userId: ID!): User!
             login(email: String!, password: String!):AuthData!
             movies: [Movie!]
         }
         type RootMutation{
-            createUser(userInput: UserInput): User
-            createMovie(movieInput: MovieInput): Movie
-            newAccessToken(userId: String!,refreshToken: String): Token!
-            addToFavorite(movieId: ID, userId: ID): Movie!
+            createUser(userInput: UserInput!): User
+            createMovie(movieInput: MovieInput!): Movie
+            newAccessToken(userId: String!,refreshToken: String!): Token!
+            addToFavorite(movieId: ID!, userId: ID!): Movie!
         }
     schema{
         query: RootQuery
