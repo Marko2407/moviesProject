@@ -11,6 +11,14 @@ module.exports = {
       throw error;
     }
   },
+  movieById: async ({movieId}) => {
+    try {
+      const result = await Movie.findById(movieId);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
   createMovie: async (args) => {
     console.log(args.movieInput.category);
     const movie = new Movie({

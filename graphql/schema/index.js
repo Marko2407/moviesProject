@@ -64,6 +64,7 @@ module.exports = buildSchema(`
             userInfo(userId: ID!): User!
             login(email: String!, password: String!):AuthData!
             movies: [Movie!]
+            movieById(movieId: ID!): Movie!
         }
         type RootMutation{
             createUser(userInput: UserInput!): User
