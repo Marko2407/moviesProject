@@ -3,6 +3,7 @@ const { buildSchema } = require("graphql");
 module.exports = buildSchema(`
          type User{
             _id: ID!
+            fullName: String!
             email: String!
             password : String
             refreshToken: String
@@ -55,6 +56,7 @@ module.exports = buildSchema(`
             rating: Float
         }
         input UserInput{
+            fullName: String!
             email: String!
             password: String!
         }
