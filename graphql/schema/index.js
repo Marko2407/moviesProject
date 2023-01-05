@@ -63,7 +63,7 @@ module.exports = buildSchema(`
 
         type RootQuery{
             user: [User!]
-            userInfo(userId: ID!): User!
+            userInfo(userId: ID!): User
             login(email: String!, password: String!):AuthData!
             movies: [Movie!]
             movieById(movieId: ID!): Movie!
