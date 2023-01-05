@@ -26,6 +26,9 @@ app.use(
     schema: grapqhlSchema,
     rootValue: graphqlResolvers,
     graphiql: true,
+    customFormatErrorFn: (err) => {
+      return err.message;
+    },
   })
 );
 mongoose.set("strictQuery", false);

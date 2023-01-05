@@ -52,7 +52,7 @@ module.exports = {
       if (checkDuplicate) {
         throw new GraphQLError("Already added", {
           extensions: {
-            code: "404",
+            code: '404',
           },
         });
       }
@@ -61,7 +61,7 @@ module.exports = {
       await user.save();
       return movie;
     } catch (error) {
-      console.log(error)
+      console.log(JSON.stringify(error));
         throw error
     }
   }
