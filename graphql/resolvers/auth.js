@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
 const { customError } = require("../../helpers/errorHandler");
 const { transformMovies, transformUser } = require("../resolvers/merge");
+const { errorName } = require("../../helpers/constants");
+const { GraphQLError } = require("graphql");
+
 
 function generateAccessToken(userId) {
   return jwt.sign({ userId: userId }, process.env.SECURE_ACCESS_TOKEN_KEY, {
@@ -10,7 +13,7 @@ function generateAccessToken(userId) {
   });
 }
 
-module.exports = {
+const authResolver = {
   RootQuery: {
     user: async () => {
       const users = await User.find();
@@ -20,16 +23,16 @@ module.exports = {
       });
       return users;
     },
-    login: async ({ email, password }) => {
+    login: async (_p, { email, password }, _c, _i) => {
       try {
         const user = await User.findOne({ email: email });
         if (!user) {
-          throw customError("User not found", 404);
-        }
+          throw new Error(errorName.USER_ALREADY_EXISTS);
+         }
         const isEqual = await bcrypt.compare(password, user.password);
         if (!isEqual) {
-          throw customError("Invalid credentials", 401);
-        }
+            throw new Error(errorName.USER_ALREADY_EXISTS);
+       }
         const token = generateAccessToken(user.id);
         const refreshToken = jwt.sign(
           user.id,
@@ -47,27 +50,28 @@ module.exports = {
       }
     },
 
-    userInfo: async ({ userId }) => {
+    userInfo: async (_p, args, _c, _i) => {
       try {
-        const user = await User.findById(userId.toString());
+        console.log("dd")
+        const user = await User.findById(args.userId.toString());
+            console.log("args.userInput.email");
         if (!user) {
           throw customError("Unable to find user", 404);
         }
         return transformUser(user);
       } catch (err) {
-        console.log(err);
-        throw err;
+         throw err;
       }
     },
   },
   RootMutation: {
-    createUser: async (args) => {
+    createUser: async (_ep, args, _ec, _ei) => {
       try {
         const existingUser = await User.findOne({
           email: args.userInput.email,
         });
         if (existingUser) {
-          throw customError("User already exist, try to login", 404);
+          throw new GraphQLError(errorName.USER_ALREADY_EXISTS);
         }
         const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
         const user = new User({
@@ -79,21 +83,21 @@ module.exports = {
         const result = await user.save();
         return { ...result._doc, password: null };
       } catch (err) {
-        throw err;
+        throw err
       }
     },
-    newAccessToken: async (args) => {
+    newAccessToken: async (_p, args, _c, _i) => {
       try {
         const user = await User.findById(args.userId);
         if (!user) {
-          throw customError("Unable to find user", 404);
+              throw new Error(errorName.USER_ALREADY_EXISTS);
         }
         if (user.refreshToken === args.refreshToken) {
           return jwt.verify(
             user.refreshToken,
             process.env.SECURE_REFRESH_TOKEN_KEY,
             (err, user) => {
-              if (err) throw customError("Unable to verify", 401);
+              if (err) throw new Error(errorName.USER_ALREADY_EXISTS);
               token = generateAccessToken(user);
               return {
                 token: token,
@@ -103,9 +107,10 @@ module.exports = {
           );
         }
       } catch (error) {
-        console.log(error);
-        throw error;
+          throw error;
       }
     },
   },
 };
+
+module.exports = authResolver

@@ -1,6 +1,6 @@
 const { errorType } = require("./constants");
 
-const getErrorCode = (errorName) => {
+const getErrorCode = errorName => {
   return errorType[errorName];
 };
 

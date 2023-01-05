@@ -1,6 +1,7 @@
 exports.errorName = {
   USER_ALREADY_EXISTS: "USER_ALREADY_EXISTS",
   SERVER_ERROR: "SERVER_ERROR",
+  UNKNOWN:"UKNOWN_ERROR"
 };
 
 exports.errorType = {
@@ -11,5 +12,9 @@ exports.errorType = {
   SERVER_ERROR: {
     message: "Server error.",
     statusCode: 500,
+  },
+  UNKNOWN: {
+    message: "Uknown error.",
+    statusCode: 400,
   },
 };

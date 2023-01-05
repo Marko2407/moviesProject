@@ -5,7 +5,7 @@ const { user } = require("./auth");
 const { errorName } = require("../../helpers/constants");
 const { GraphQLError} = require("graphql")
 
-module.exports = {
+const movies = {
   RootQuery: {
     movies: async () => {
       try {
@@ -15,7 +15,7 @@ module.exports = {
         throw error;
       }
     },
-    movieById: async ({ movieId }) => {
+    movieById: async (_p, { movieId}, _c, _i) => {
       try {
         const result = await Movie.findById(movieId);
         return result;
@@ -25,8 +25,8 @@ module.exports = {
     },
   },
   RootMutation: {
-    createMovie: async (args) => {
-      console.log(args.movieInput.category);
+    createMovie: async (_p, args, _c, _i) => {
+      console.log(args.movieInput);
       const movie = new Movie({
         title: args.movieInput.title,
         description: args.movieInput.description,
@@ -40,25 +40,25 @@ module.exports = {
 
       try {
         const result = await movie.save();
+          console.log(result);
         return result;
       } catch (error) {
         throw error;
       }
     },
 
-    addToFavorite: async (_p,{ movieId, userId },_c,_i) => {
+    addToFavorite: async (_p, { movieId, userId }, _c, _i) => {
       try {
-        console.log(movieId)
+        console.log(movieId);
         const user = await User.findById(userId);
         const movie = await Movie.findById(movieId);
         if (!user || !movie) {
-           throw new Error(errorName.USER_ALREADY_EXISTS); 
+          throw new GraphQLError(errorName.USER_ALREADY_EXISTS)
         }
         const checkDuplicate = await User.exists({ favoriteMovies: movieId });
         if (checkDuplicate) {
-             throw new Error(errorName.USER_ALREADY_EXISTS);
-      
-        }
+          throw new GraphQLError(errorName.USER_ALREADY_EXISTS);
+         }
         user.favoriteMovies.push(movie);
         await user.save();
         return movie;
@@ -68,3 +68,5 @@ module.exports = {
     },
   },
 };
+
+module.exports = movies

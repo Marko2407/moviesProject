@@ -2,11 +2,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const graphqlHttp = require("express-graphql");
 const mongoose = require("mongoose");
-const getErrorCode = require("./helpers/getError.js")
+const getErrorsCode = require("./helpers/getError.js")
 const grapqhlSchema = require("./graphql/schema/index");
-const graphqlResolvers = require("./graphql/resolvers/index");
+const grapqhlResolver = require("./graphql/resolvers/index");
 const { GraphQLError } = require("graphql");
 const { ApolloServer } = require("apollo-server-express");
+const { errorType } = require("./helpers/constants.js");
+
+
+const getErrorCode = (errorName) => {
+  return errorType[errorName];
+};
 
   async function startServer() {
  
@@ -28,13 +34,13 @@ const { ApolloServer } = require("apollo-server-express");
     });
 
     const apolloServer = new ApolloServer({
-    typeDefs: grapqhlSchema,
-    resolvers: graphqlResolvers,
-    formatError: (err) => {
-      const error = getErrorCode(err.message);
-      return { message: error.message, statusCode: error.statusCode };
-    }
-  });
+      typeDefs: grapqhlSchema,
+      resolvers: grapqhlResolver,
+      formatError: (formatError,error) => {
+        const err = getErrorCode(formatError.message);
+        return err;
+      },
+    });
 
     await apolloServer.start();
 
