@@ -1,5 +1,6 @@
 const Movie = require("../../models/movie");
 const User = require("../../models/user");
+const { customError } = require("../../helpers/errorHandler");
 const { user } = require("./auth");
 
 module.exports = {
@@ -44,11 +45,11 @@ module.exports = {
       const user = await User.findById(userId);
       const movie = await Movie.findById(movieId);
       if (!user || !movie) {
-        throw new Error("Cant find");
+         throw customError("Unable to find movie", 404);
       }
       const checkDuplicate = await User.exists({ favoriteMovies: movieId });
       if (checkDuplicate) {
-        throw new Error("Already added");
+         throw customError("Already added", 404);
       }
 
       user.favoriteMovies.push(movie);

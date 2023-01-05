@@ -23,7 +23,7 @@ module.exports = {
     try {
       const existingUser = await User.findOne({ email: args.userInput.email });
       if (existingUser) {
-        throw new Error("User exists already");
+        throw customError("User already exist, try to login", 404);
       }
       const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
       const user = new User({
@@ -43,11 +43,11 @@ module.exports = {
     try {
       const user = await User.findOne({ email: email });
       if (!user) {
-        throw new Error("User does not exist!");
+       throw customError("User not found", 404);
       }
       const isEqual = await bcrypt.compare(password, user.password);
       if (!isEqual) {
-        throw new Error("Invalid credentials!");
+        throw customError("Invalid credentials", 401);
       }
       const token = generateAccessToken(user.id);
       const refreshToken = jwt.sign(
@@ -76,7 +76,7 @@ module.exports = {
           user.refreshToken,
           process.env.SECURE_REFRESH_TOKEN_KEY,
           (err, user) => {
-            if (err) throw new Error("unable to verify!");
+            if (err)  throw customError("Unable to verify", 401);
             token = generateAccessToken(user);
             return {
               token: token,
