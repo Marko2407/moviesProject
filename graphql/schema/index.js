@@ -73,6 +73,7 @@ module.exports = buildSchema(`
             createMovie(movieInput: MovieInput!): Movie
             newAccessToken(userId: String!,refreshToken: String!): Token!
             addToFavorite(movieId: ID!, userId: ID!): Movie!
+            removeFromFavorite(movieId: ID!, userId: ID!): Movie!
         }
     schema{
         query: RootQuery

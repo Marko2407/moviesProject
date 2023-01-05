@@ -15,7 +15,7 @@ const movies = {
         throw error;
       }
     },
-    movieById: async (_p, { movieId}, _c, _i) => {
+    movieById: async (_p, { movieId }, _c, _i) => {
       try {
         const result = await Movie.findById(movieId);
         return result;
@@ -26,7 +26,7 @@ const movies = {
   },
   RootMutation: {
     createMovie: async (_p, args, _c, _i) => {
-     const movie = new Movie({
+      const movie = new Movie({
         title: args.movieInput.title,
         description: args.movieInput.description,
         img: args.movieInput.img,
@@ -44,19 +44,39 @@ const movies = {
         throw error;
       }
     },
-
     addToFavorite: async (_p, { movieId, userId }, _c, _i) => {
       try {
         const user = await User.findById(userId);
         const movie = await Movie.findById(movieId);
-        if (!user || !movie) {
-          throw new GraphQLError(errorName.USER_ALREADY_EXISTS)
-        }
+          if (!user) {
+            throw new GraphQLError(errorName.USER_NOT_FOUND);
+          }
+          if (!movie) {
+            throw new GraphQLError(errorName.MOVIE_NOT_FOUND);
+          }
         const checkDuplicate = await User.exists({ favoriteMovies: movieId });
         if (checkDuplicate) {
-          throw new GraphQLError(errorName.USER_ALREADY_EXISTS);
-         }
+          throw new GraphQLError(errorName.UKNOWN_ERROR);
+        }
         user.favoriteMovies.push(movie);
+        await user.save();
+        return movie;
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    removeFromFavorite: async (_p, { movieId, userId }, _c, _i) => {
+      try {
+        const user = await User.findById(userId);
+        const movie = await Movie.findById(movieId);
+        if (!user) {
+          throw new GraphQLError(errorName.USER_NOT_FOUND);
+        }
+        if (!movie) {
+          throw new GraphQLError(errorName.MOVIE_NOT_FOUND);
+        }
+        user.favoriteMovies.pull(movie);
         await user.save();
         return movie;
       } catch (error) {

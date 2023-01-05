@@ -27,11 +27,11 @@ const authResolver = {
       try {
         const user = await User.findOne({ email: email });
         if (!user) {
-          throw new Error(errorName.USER_ALREADY_EXISTS);
+          throw new Error(errorName.USER_NOT_FOUND);
          }
         const isEqual = await bcrypt.compare(password, user.password);
         if (!isEqual) {
-            throw new Error(errorName.USER_ALREADY_EXISTS);
+            throw new Error(errorName.UNKNOWN);
        }
         const token = generateAccessToken(user.id);
         const refreshToken = jwt.sign(
@@ -54,7 +54,7 @@ const authResolver = {
       try {
         const user = await User.findById(args.userId.toString());
         if (!user) {
-          throw customError("Unable to find user", 404);
+          throw new Error(errorName.USER_NOT_FOUND);
         }
         return transformUser(user);
       } catch (err) {
@@ -69,7 +69,7 @@ const authResolver = {
           email: args.userInput.email,
         });
         if (existingUser) {
-          throw new GraphQLError(errorName.USER_ALREADY_EXISTS);
+         throw new Error(errorName.USER_ALREADY_EXISTS);
         }
         const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
         const user = new User({
@@ -95,7 +95,7 @@ const authResolver = {
             user.refreshToken,
             process.env.SECURE_REFRESH_TOKEN_KEY,
             (err, user) => {
-              if (err) throw new Error(errorName.USER_ALREADY_EXISTS);
+              if (err) throw new Error(errorName.UNKNOWN);
               token = generateAccessToken(user);
               return {
                 token: token,
