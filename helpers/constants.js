@@ -7,14 +7,14 @@ exports.errorName = {
 exports.errorType = {
   USER_ALREADY_EXISTS: {
     message: "User is already exists.",
-    statusCode: 403,
+    code: 403,
   },
   SERVER_ERROR: {
     message: "Server error.",
-    statusCode: 500,
+    code: 500,
   },
   UNKNOWN: {
     message: "Uknown error.",
-    statusCode: 400,
+    code: 400,
   },
 };
