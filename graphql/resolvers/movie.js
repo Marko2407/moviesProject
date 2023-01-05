@@ -51,7 +51,7 @@ module.exports = {
       }
       const checkDuplicate = await User.exists({ favoriteMovies: movieId });
       if (checkDuplicate) {
-        throw new Error(errorName.USER_ALREADY_EXISTS);
+        return new Error(errorName.USER_ALREADY_EXISTS);
       }
 
       user.favoriteMovies.push(movie);
