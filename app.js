@@ -38,6 +38,7 @@ const getErrorCode = (errorName) => {
       resolvers: grapqhlResolver,
       formatError: (formatError,error) => {
         const err = getErrorCode(formatError.message);
+        console.log(err)
         return err;
       },
     });

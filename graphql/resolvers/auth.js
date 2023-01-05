@@ -52,9 +52,7 @@ const authResolver = {
 
     userInfo: async (_p, args, _c, _i) => {
       try {
-        console.log("dd")
         const user = await User.findById(args.userId.toString());
-            console.log("args.userInput.email");
         if (!user) {
           throw customError("Unable to find user", 404);
         }

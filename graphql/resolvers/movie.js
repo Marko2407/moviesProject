@@ -26,8 +26,7 @@ const movies = {
   },
   RootMutation: {
     createMovie: async (_p, args, _c, _i) => {
-      console.log(args.movieInput);
-      const movie = new Movie({
+     const movie = new Movie({
         title: args.movieInput.title,
         description: args.movieInput.description,
         img: args.movieInput.img,
@@ -40,7 +39,6 @@ const movies = {
 
       try {
         const result = await movie.save();
-          console.log(result);
         return result;
       } catch (error) {
         throw error;
@@ -49,7 +47,6 @@ const movies = {
 
     addToFavorite: async (_p, { movieId, userId }, _c, _i) => {
       try {
-        console.log(movieId);
         const user = await User.findById(userId);
         const movie = await Movie.findById(movieId);
         if (!user || !movie) {
