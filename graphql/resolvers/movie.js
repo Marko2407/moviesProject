@@ -43,7 +43,6 @@ module.exports = {
     }
   },
   addToFavorite: async({movieId, userId}) =>{
-    try {
       const user = await User.findById(userId);
       const movie = await Movie.findById(movieId);
       if (!user || !movie) {
@@ -57,9 +56,5 @@ module.exports = {
       user.favoriteMovies.push(movie);
       await user.save();
       return movie;
-    } catch (error) {
-      console.log(error);
-        throw error
-    }
   }
 };
