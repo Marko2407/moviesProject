@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const getErrorCode = require("./helpers/getError.js")
 const grapqhlSchema = require("./graphql/schema/index");
 const graphqlResolvers = require("./graphql/resolvers/index");
+const { GraphQLError } = require("graphql");
+
 
 const app = express();
 
