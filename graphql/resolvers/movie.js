@@ -51,7 +51,7 @@ module.exports = {
       }
       const checkDuplicate = await User.exists({ favoriteMovies: movieId });
       if (checkDuplicate) {
-        return new Error(errorName.USER_ALREADY_EXISTS);
+         throw new GraphQLError("deadline passed");
       }
 
       user.favoriteMovies.push(movie);

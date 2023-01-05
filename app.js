@@ -26,9 +26,8 @@ app.use(
     schema: grapqhlSchema,
     rootValue: graphqlResolvers,
     graphiql: true,
-    customFormatErrorFn: (err) => {
-      const error = getErrorCode(err.message)
-      return ({ message: error.message, statusCode: error.statusCode })
+    customFormatErrorFn: (error) => {
+      return new GraphQLError(error.message); 
     },
   })
 );
