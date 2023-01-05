@@ -2,6 +2,7 @@ const Movie = require("../../models/movie");
 const User = require("../../models/user");
 const { customError } = require("../../helpers/errorHandler");
 const { user } = require("./auth");
+const { errorName } = require("../../helpers/constants");
 const { GraphQLError} = require("graphql")
 
 module.exports = {
@@ -50,18 +51,14 @@ module.exports = {
       }
       const checkDuplicate = await User.exists({ favoriteMovies: movieId });
       if (checkDuplicate) {
-        throw new GraphQLError("Already added", {
-          extensions: {
-            code: '404',
-          },
-        });
+        throw new Error(errorName.USER_ALREADY_EXISTS);
       }
 
       user.favoriteMovies.push(movie);
       await user.save();
       return movie;
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.log(error);
         throw error
     }
   }

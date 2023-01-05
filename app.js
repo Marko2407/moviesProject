@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const graphqlHttp = require("express-graphql");
 const mongoose = require("mongoose");
-
+const getErrorCode = require("./helpers/getError.js")
 const grapqhlSchema = require("./graphql/schema/index");
 const graphqlResolvers = require("./graphql/resolvers/index");
 
@@ -27,7 +27,8 @@ app.use(
     rootValue: graphqlResolvers,
     graphiql: true,
     customFormatErrorFn: (err) => {
-      return err.message;
+      const error = getErrorCode(err.message)
+      return ({ message: error.message, statusCode: error.statusCode })
     },
   })
 );
