@@ -23,6 +23,18 @@ const movies = {
         throw error;
       }
     },
+    moviesBySearchInput: async (_p, { searchInput }, _c, _i) => {
+      try {
+        const searchResult = await Movie.find({
+          title: { $regex: searchInput, $options: "i" },
+          description: { $regex: searchInput, $options: "i" },
+        });
+
+        return searchResult
+      } catch (error) {
+        throw error;
+      }
+    },
   },
   RootMutation: {
     createMovie: async (_p, args, _c, _i) => {
@@ -48,12 +60,12 @@ const movies = {
       try {
         const user = await User.findById(userId);
         const movie = await Movie.findById(movieId);
-          if (!user) {
-            throw new GraphQLError(errorName.USER_NOT_FOUND);
-          }
-          if (!movie) {
-            throw new GraphQLError(errorName.MOVIE_NOT_FOUND);
-          }
+        if (!user) {
+          throw new GraphQLError(errorName.USER_NOT_FOUND);
+        }
+        if (!movie) {
+          throw new GraphQLError(errorName.MOVIE_NOT_FOUND);
+        }
         const checkDuplicate = await User.exists({ favoriteMovies: movieId });
         if (checkDuplicate) {
           throw new GraphQLError(errorName.UKNOWN_ERROR);
