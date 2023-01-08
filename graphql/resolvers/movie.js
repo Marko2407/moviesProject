@@ -26,11 +26,11 @@ const movies = {
     moviesBySearchInput: async (_p, { searchInput }, _c, _i) => {
       try {
         const searchResult = await Movie.find({
-          title: { $regex: searchInput, $options: "i" },
-          description: { $regex: searchInput, $options: "i" },
+          $or:[{title: { $regex: searchInput, $options: "i" }},
+          {description: { $regex: searchInput, $options: "i" }},]
         });
 
-        return searchResult
+        return searchResult;
       } catch (error) {
         throw error;
       }
@@ -66,9 +66,9 @@ const movies = {
         if (!movie) {
           throw new GraphQLError(errorName.MOVIE_NOT_FOUND);
         }
-        const checkDuplicate = await User.exists({ favoriteMovies: movieId });
+        const checkDuplicate = user.favoriteMovies.includes(movieId);
         if (checkDuplicate) {
-          throw new GraphQLError(errorName.UKNOWN_ERROR);
+          throw new GraphQLError(errorName.UNKNOWN);
         }
         user.favoriteMovies.push(movie);
         await user.save();
