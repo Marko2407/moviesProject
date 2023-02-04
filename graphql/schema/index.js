@@ -21,6 +21,12 @@ module.exports = buildSchema(`
             ROMANTIC
         }
 
+        type RecommendedMovies{
+            mostRatedMovies: [Movie!]
+            mostPopularMovies: [Movie!]
+            personalMovies:[Movie!]
+        }
+
         type Movie{
             _id:ID!
             title: String!
@@ -31,6 +37,7 @@ module.exports = buildSchema(`
             duration: Int!
             releaseDate: String!
             rating: Float
+            favoriteCounter: Int
         }
 
         type AuthData{
@@ -38,6 +45,11 @@ module.exports = buildSchema(`
             token: String!
             refreshToken: String!
             tokenExpired: Int!
+        }
+
+        type MoviesByCategories{
+            category: String!,
+            movies: [Movie!]
         }
 
         type Token{
@@ -68,6 +80,8 @@ module.exports = buildSchema(`
             movies: [Movie!]
             movieById(movieId: ID!): Movie!
             moviesBySearchInput(searchInput: String!): [Movie!]
+            moviesRecommendation(userId: ID!): RecommendedMovies!
+            moviesByCategories:[MoviesByCategories!]
         }
         type RootMutation{
             createUser(userInput: UserInput!): User
