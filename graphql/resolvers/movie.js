@@ -196,6 +196,7 @@ const movies = {
 				}
 				movie.favoriteCounter += 1;
 				user.favoriteMovies.push(movie);
+				await movie.save();
 				await user.save();
 				return movie;
 			} catch (error) {
@@ -215,6 +216,7 @@ const movies = {
 				}
 				movie.favoriteCounter -= 1;
 				user.favoriteMovies.pull(movie);
+				await movie.save();
 				await user.save();
 				return movie;
 			} catch (error) {
