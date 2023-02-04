@@ -21,6 +21,13 @@ module.exports = buildSchema(`
             ROMANTIC
         }
 
+    
+
+        type ListRecommendedMovies{
+            recommendationType: String,
+            movies:[Movie!]
+        }
+
         type RecommendedMovies{
             mostRatedMovies: [Movie!]
             mostPopularMovies: [Movie!]
@@ -80,7 +87,7 @@ module.exports = buildSchema(`
             movies: [Movie!]
             movieById(movieId: ID!): Movie!
             moviesBySearchInput(searchInput: String!): [Movie!]
-            moviesRecommendation(userId: ID!): RecommendedMovies!
+            moviesRecommendation(userId: ID!): [ListRecommendedMovies!]
             moviesByCategories:[MoviesByCategories!]
         }
         type RootMutation{

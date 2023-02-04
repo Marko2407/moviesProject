@@ -132,12 +132,20 @@ const movies = {
 					shuffled(movies),
 					userMovies
 				);
-
-				return {
-					mostRatedMovies: mostRatedMovies,
-					mostPopularMovies: mostPopularMovies,
-					personalMovies: personalMovieGenerator,
-				};
+				return [
+					{
+						recommendationType: "Top 10 rating",
+						movies: mostRatedMovies,
+					},
+					{
+						recommendationType: "Top 10 by users",
+						movies: mostPopularMovies,
+					},
+					{
+						recommendationType: "Recommended for you",
+						movies: personalMovieGenerator,
+					},
+				];
 			} catch (error) {
 				throw error;
 			}
