@@ -7,14 +7,6 @@ const { errorName } = require("../../helpers/constants");
 const { GraphQLError } = require("graphql");
 const movie = require("../../models/movie");
 
-// Top 10 filmova mozda ubacit, pa top ocjenjenih, najnoviji filmovi.
-//Dodat u film favoriteCounter i onda kad user postavi film u favorite da se i tamo update i temeljem toga vrati top 10?
-
-// Recomended : Top 10 movies, by rating, by personal favorites create list of movies by most choosen movies in wish list.
-//Napraviti query koji ce vratit sve recomended
-//napravit query koji ce vratit filmove po kategorizaciji
-// To ce biti prikazano na pocetnoj, bit ce 2 recyclerViewa u jednom recomended lista a u drugom svi filmovi po kategorizaciji
-// Filmove vratit po kategorijama.
 function scaleMovieCounter(categoriesWithCounter, totalNumber) {
 	categoriesWithCounter.forEach((element) => {
 		element.counter = Math.round((element.counter / totalNumber) * 10);
@@ -126,15 +118,14 @@ const movies = {
 			try {
 				const movies = await Movie.find();
 				const user = await User.findById(userId);
-				const userMovies = await Transformmovies(user.favoriteMovies);
-
-				if (!user) {
-					throw new GraphQLError(errorName.USER_NOT_FOUND);
+				if (user == undefined) {
+					throw new Error(errorName.USER_NOT_FOUND);
 				}
 				if (!movies) {
-					throw new GraphQLError(errorName.SERVER_ERROR);
+					throw new Error(errorName.UNKNOWN);
 				}
 
+				const userMovies = await Transformmovies(user.favoriteMovies);
 				const mostRatedMovies = findMostRatedMovies(movies);
 				const mostPopularMovies = findMostPopularMovies(shuffled(movies));
 				const personalMovieGenerator = findMoviesByMostFavCategory(
@@ -154,7 +145,6 @@ const movies = {
 		moviesByCategories: async (_p, _args, _c, _i) => {
 			try {
 				const movies = await Movie.find();
-
 				return getMoviesByCategories(movies);
 			} catch (error) {
 				throw error;
