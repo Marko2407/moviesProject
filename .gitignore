@@ -91,6 +91,8 @@ dist
 # vuepress build output
 .vuepress/dist
 
+nodemon.json
+.nodemon.json
 # Serverless directories
 .serverless/
 
