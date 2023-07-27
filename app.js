@@ -1,11 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const graphqlHttp = require("express-graphql");
 const mongoose = require("mongoose");
-const getErrorsCode = require("./helpers/getError.js");
 const grapqhlSchema = require("./graphql/schema/index");
 const grapqhlResolver = require("./graphql/resolvers/index");
-const { GraphQLError } = require("graphql");
 const { ApolloServer } = require("apollo-server-express");
 const { errorType } = require("./helpers/constants.js");
 
